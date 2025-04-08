@@ -12,3 +12,20 @@ class trade_data:
 
         self.short_size = None
         self.long_size = None
+
+        self.symbol = None
+        self.candles = None
+        self.position = self.long_size
+
+    def next(self):
+        self.position += 1
+        volume = self.candles[self.position].v
+        low_price = self.candles[self.position].l
+
+        self.lowest_volume = min(self.lowest_volume, volume)
+        self.lowest_price = min(self.lowest_price, low_price)
+
+        self.short_volume_queue.put(volume)
+        self.short_volume_queue.get()
+        self.long_volume_queue.put(volume)
+        self.long_volume_queue.get()
