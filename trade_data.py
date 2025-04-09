@@ -2,15 +2,7 @@ import queue
 class TradeEngine:
     def __init__(self, candles, hyperparams):
         self.df = candles
-        self.hp = {
-            "short_size": 10,                # Short-term volume window (number of candles)
-            "long_size": 60,                 # Long-term volume window (number of candles)
-            "volume_enter_scaler": 0.8,      # Entry volume threshold scaler
-            "volume_exit_scaler": 1.5,       # Exit volume threshold scaler
-            "trailing_stop_loss": 1.1,      # Hard trailing stop-loss (e.g., 1.02 = 2% above lowest)
-            "sma_candles": 20,               # Window size for SMA comparison on exit
-            "buy_amount": 1000               # Amount added to PV per trade entry
-        }  # dict of all hyperparameters
+        self.hp = hyperparams # dict of all hyperparameters
         self.in_trade = False
         self.entry_price = None
         self.lowest_price = None

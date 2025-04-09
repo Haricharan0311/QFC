@@ -63,7 +63,7 @@ for i, (short_size, long_size, v_enter, v_exit, trailing_sl, sma) in enumerate(p
         "trades": len(engine.trades)
     })
 
-    if i % 100 == 0:
+    if i % 1 == 0:
         elapsed = time.time() - start_time
         print(f"{i}/{len(param_space)} configs done | Elapsed: {elapsed:.2f}s")
 
