@@ -129,7 +129,8 @@ class TradeEngine:
             "exit_price": exit_price,
             "exit_index": self.position,
             "pnl": pnl,
-            "exit_reason": exit_reason
+            "exit_reason": exit_reason,
+            "holding_candles": self.position - self.trades[-1]["entry_index"]
         })
 
         self.in_trade = False

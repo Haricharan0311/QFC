@@ -17,12 +17,12 @@ candles = info.candles_snapshot(name="VINE", interval="15m", startTime=start_tim
 df = candles_to_df(candles)
 
 # === 2. Define Full Parameter Grid ===
-short_sizes = list(range(3, 26, 2))
-long_sizes = list(range(20, 101, 5))
-volume_enter_scalers = [round(x, 2) for x in np.arange(0.5, 1.01, 0.1)]
-volume_exit_scalers = [round(x, 2) for x in np.arange(1.0, 3.01, 0.1)]
-trailing_stop_losses = [round(x, 2) for x in np.arange(1.0, 1.26, 0.02)]
-sma_candles = list(range(3, 11))
+short_sizes = list(range(20, 26, 2))
+long_sizes = list(range(20, 21, 1))
+volume_enter_scalers = [round(x, 2) for x in np.arange(0.5, 0.6, 0.1)]
+volume_exit_scalers = [round(x, 2) for x in np.arange(1.0, 1.2, 0.1)]
+trailing_stop_losses = [round(x, 2) for x in np.arange(1.0, 1.1, 0.02)]
+sma_candles = list(range(10, 11))
 
 param_space = list(itertools.product(
     short_sizes,
@@ -73,3 +73,26 @@ df_results.to_csv("monte_carlo_results.csv", index=False)
 
 elapsed = time.time() - start_time
 print(f"\n✅ Completed {len(param_space)} simulations in {elapsed:.2f} seconds")
+
+
+# Convert results list to a DataFrame
+df_results = pd.DataFrame(results)
+
+# Sort by highest Portfolio Value (PV)
+df_sorted = df_results.sort_values(by="PV", ascending=False)
+
+# Get the best config
+best = df_sorted.iloc[0]
+
+print("\n🎯 Best Configuration:")
+print(f"Short Size           : {best['short_size']}")
+print(f"Long Size            : {best['long_size']}")
+print(f"Volume Enter Scaler  : {best['v_enter']}")
+print(f"Volume Exit Scaler   : {best['v_exit']}")
+print(f"Trailing Stop Loss   : {best['trailing_sl']}")
+print(f"SMA Candles          : {best['sma']}")
+print(f"Final Portfolio Value: {best['PV']:.2f}")
+print(f"Total Trades         : {best['trades']}")
+
+print("\n📊 Top 5 Configs:")
+print(df_sorted.head(5))
