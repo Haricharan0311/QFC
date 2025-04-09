@@ -7,12 +7,12 @@ import pandas as pd
 from trade_data import TradeEngine
 
 hp = {
-    "short_size": 10,#3 to 25 step_size=2
-    "long_size": 60,#20 to 100 step_size=5
-    "volume_enter_scaler": 0.8,#0.5 to 1 step_size=0.1
-    "volume_exit_scaler": 1.5,#1 to 3 step_size=0.1
-    "trailing_stop_loss": 1.1,#1 to 1.25 step_size=0.02
-    "sma_candles": 20,#3 to 10 step_size=1
+    "short_size": 10,#3 to 25 step_size=2   11
+    "long_size": 60,#20 to 100 step_size=5   16
+    "volume_enter_scaler": 0.8,#0.5 to 1 step_size=0.1  5
+    "volume_exit_scaler": 1.5,#1 to 3 step_size=0.1   20
+    "trailing_stop_loss": 1.1,#1 to 1.25 step_size=0.02   12.5
+    "sma_candles": 20,#3 to 10 step_size=1 7
     "buy_amount": 1000
 }
 # Initialize the Info class
