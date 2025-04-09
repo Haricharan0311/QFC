@@ -21,7 +21,7 @@ info = Info(constants.MAINNET_API_URL, skip_ws=True)
 
 # Define parameters
 # symbols = {"ETH", "BTC", "VINE"}
-symbols = {"TRUMP"}
+symbols = {"VINE"}
 interval = "15m"
 candles = {}
 
@@ -35,7 +35,7 @@ for symbol in symbols:
     candles[symbol] = info.candles_snapshot(name=symbol, interval=interval, startTime=start_time, endTime=end_time)
 
 
-df = candles_to_df(candles["TRUMP"])
+df = candles_to_df(candles["VINE"])
 print(df.head())
 
 engine = TradeEngine(candles=df, hyperparams=hp)
