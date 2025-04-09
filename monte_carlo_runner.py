@@ -13,16 +13,16 @@ info = Info(constants.MAINNET_API_URL, skip_ws=True)
 end_time = int(datetime.now(timezone.utc).timestamp() * 1000)
 start_time = end_time - (60 * 60 * 1000 * 1265)
 
-candles = info.candles_snapshot(name="VINE", interval="15m", startTime=start_time, endTime=end_time)
+candles = info.candles_snapshot(name="TRUMP", interval="15m", startTime=start_time, endTime=end_time)
 df = candles_to_df(candles)
 
 # === 2. Define Full Parameter Grid ===
-short_sizes = list(range(20, 26, 2))
-long_sizes = list(range(20, 21, 1))
-volume_enter_scalers = [round(x, 2) for x in np.arange(0.5, 0.6, 0.1)]
-volume_exit_scalers = [round(x, 2) for x in np.arange(1.0, 1.2, 0.1)]
-trailing_stop_losses = [round(x, 2) for x in np.arange(1.0, 1.1, 0.02)]
-sma_candles = list(range(10, 11))
+short_sizes = list(range(5, 9, 2))
+long_sizes = list(range(38, 46, 4))
+volume_enter_scalers = [round(x, 2) for x in np.arange(0.6, 1.0, 0.1)]
+volume_exit_scalers = [round(x, 2) for x in np.arange(1.1, 1.2, 0.1)]
+trailing_stop_losses = [1.05, 1.1]
+sma_candles = list(range(3, 7))
 
 param_space = list(itertools.product(
     short_sizes,
@@ -46,7 +46,8 @@ for i, (short_size, long_size, v_enter, v_exit, trailing_sl, sma) in enumerate(p
         "volume_exit_scaler": v_exit,
         "trailing_stop_loss": trailing_sl,
         "sma_candles": sma,
-        "buy_amount": 1000
+        "buy_amount": 1000,
+        "fee_rate": .0004 # .04% fee
     }
 
     engine = TradeEngine(df.copy(), hp)

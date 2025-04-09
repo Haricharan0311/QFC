@@ -121,16 +121,23 @@ class TradeEngine:
         row = self.df.iloc[self.position]
         exit_price = row["c"]
 
-        pnl = ((self.entry_price - exit_price) / self.entry_price) * self.hp["buy_amount"]
-        self.PV += pnl
+        raw_pnl = ((self.entry_price - exit_price) / self.entry_price) * self.hp["buy_amount"]
+
+        entry_fee = self.hp["buy_amount"] * self.hp.get("fee_rate")
+        exit_fee = (self.hp["buy_amount"] + raw_pnl) * self.hp.get("fee_rate")
+
+        net_pnl = raw_pnl - entry_fee - exit_fee
+        self.PV += net_pnl
 
         self.trades[-1].update({
             "exit_time": row["T"],
             "exit_price": exit_price,
             "exit_index": self.position,
-            "pnl": pnl,
+            "entry_fee": entry_fee,
+            "exit_fee": exit_fee,
+            "net_pnl": net_pnl,
             "exit_reason": exit_reason,
-            "holding_candles": self.position - self.trades[-1]["entry_index"]
+            "candles_in_trade": self.position - self.trades[-1]["entry_index"]
         })
 
         self.in_trade = False
